@@ -26,12 +26,12 @@ import in.srain.cube.views.ptr.PtrHandler;
 public class MainActivity extends AppCompatActivity {
 
     private SamplePtrFrameLayout mPtrFrameLayout;
-    private RecyclerView mRecyclerView;
-    private ListAdapter mAdapter;
+    private RecyclerView         mRecyclerView;
+    private ListAdapter          mAdapter;
 
-    private CutoLoadingView mCutoLoadingView;
-    private List<Integer> mDataList;
-    private boolean mPullRefreshEnable = true;
+    private CutoLoadingView      mCutoLoadingView;
+    private List<Integer>        mDataList;
+    private boolean              mPullRefreshEnable = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
+                if (frame instanceof SamplePtrFrameLayout) {
+                    ((SamplePtrFrameLayout) frame).onRefreshBegin();
+                }
                 refresh();
             }
         });
@@ -80,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                         mPtrFrameLayout.setPullToRefresh(true);
                         mCutoLoadingView.setVisibility(View.GONE);
                         mRecyclerView.setVisibility(View.VISIBLE);
+
                         if (mDataList != null && mDataList.size() > 0) {
                             mDataList.clear();
                             mAdapter.notifyDataSetChanged();
@@ -93,8 +97,10 @@ public class MainActivity extends AppCompatActivity {
                         mPullRefreshEnable = false;
                         mPtrFrameLayout.setPullToRefresh(false);
                         mRecyclerView.setVisibility(View.GONE);
+
                         mCutoLoadingView.setVisibility(View.VISIBLE);
                         mCutoLoadingView.startLoadingAnim();
+
                         if (mDataList != null && mDataList.size() > 0) {
                             mDataList.clear();
                             mAdapter.notifyDataSetChanged();
@@ -133,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                     mAdapter.notifyDataSetChanged();
                 }
 
-                for (int i = 0; i < 15; i ++) {
+                for (int i = 0; i < 20; i ++) {
                     if (0 == i % 3) {
                         mDataList.add(R.mipmap.ic_image_0);
                     } else if (1 == i % 3) {
@@ -165,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
                     mAdapter.notifyDataSetChanged();
                 }
 
-                for (int i = 0; i < 15; i ++) {
+                for (int i = 0; i < 20; i ++) {
                     if (0 == i % 3) {
                         mDataList.add(R.mipmap.ic_image_0);
                     } else if (1 == i % 3) {

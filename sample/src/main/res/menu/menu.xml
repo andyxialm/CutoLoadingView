@@ -3,7 +3,7 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/scroll_refresh"
-        android:title="Scroll_Refresh"
+        android:title="Pull_To_Refresh"
         app:showAsAction="never"/>
     <item
         android:id="@+id/regular_refresh"

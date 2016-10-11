@@ -98,7 +98,7 @@ public class CutoLoadingView extends View {
 
         // Get attrs
         TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CutoLoadingView);
-        mPaintColor = ta.getColor(R.styleable.CutoLoadingView_color, DEFAULT_PAINT_COLOR);
+        mPaintColor = ta.getColor(R.styleable.CutoLoadingView_strokeColor, DEFAULT_PAINT_COLOR);
         mStrokeSize = ta.getDimensionPixelSize(R.styleable.CutoLoadingView_strokeWidth, dp2px(DEFAULT_STROKE_SIZE));
         mAnimDuration = ta.getInt(R.styleable.CutoLoadingView_animDuration, DEFAULT_DURATION);
         mCircleRadius = ta.getDimensionPixelSize(R.styleable.CutoLoadingView_circleRadius, dp2px(DEFAULT_CIRCLE_RADIUS));

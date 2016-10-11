@@ -10,7 +10,10 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
  * Create time: 16/10/10 18:12
  * Description :
  */
-public class SamplePtrFrameLayout extends PtrFrameLayout {
+public class SamplePtrFrameLayout extends PtrFrameLayout implements OnRefreshBeginListener {
+
+    private CutoLoadingViewHeader mHeaderView;
+
     public SamplePtrFrameLayout(Context context) {
         this(context, null);
     }
@@ -25,7 +28,7 @@ public class SamplePtrFrameLayout extends PtrFrameLayout {
     }
 
     private void setupViews() {
-        CutoLoadingViewHeader mHeaderView = new CutoLoadingViewHeader(getContext());
+        mHeaderView = new CutoLoadingViewHeader(getContext());
         setResistance(1.2f);
         setLoadingMinTime(1000);
         setDurationToCloseHeader(1400);
@@ -34,5 +37,12 @@ public class SamplePtrFrameLayout extends PtrFrameLayout {
         setKeepHeaderWhenRefresh(true);
         setHeaderView(mHeaderView);
         addPtrUIHandler(mHeaderView);
+    }
+
+    @Override
+    public void onRefreshBegin() {
+        if (mHeaderView != null) {
+            mHeaderView.onRefreshBegin();
+        }
     }
 }

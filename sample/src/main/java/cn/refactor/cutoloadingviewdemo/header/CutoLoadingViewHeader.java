@@ -18,7 +18,7 @@ import in.srain.cube.views.ptr.indicator.PtrIndicator;
  * Create time: 16/10/10 17:55
  * Description :CutoLoadingViewHeader
  */
-public class CutoLoadingViewHeader extends FrameLayout implements PtrUIHandler {
+public class CutoLoadingViewHeader extends FrameLayout implements PtrUIHandler, OnRefreshBeginListener {
 
     private CutoLoadingView mCutoLoadingView;
 
@@ -73,4 +73,10 @@ public class CutoLoadingViewHeader extends FrameLayout implements PtrUIHandler {
             mCutoLoadingView.setProgress(ptrIndicator.getCurrentPercent() > 1.5f ? 1 : ptrIndicator.getCurrentPercent());
         }
     }
+
+    @Override
+    public void onRefreshBegin() {
+        mCutoLoadingView.startLoadingAnim();
+    }
+
 }

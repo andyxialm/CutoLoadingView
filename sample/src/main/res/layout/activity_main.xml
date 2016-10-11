@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:title="@string/app_name"
-        app:titleTextColor="@color/colorAccent"></android.support.v7.widget.Toolbar>
+        app:titleTextColor="@color/colorAccent"/>
 
     <cn.refactor.cutoloadingviewdemo.header.SamplePtrFrameLayout
         android:id="@+id/ptr_frame_layout"
@@ -33,15 +33,14 @@
             <cn.refactor.cutoloadingview.CutoLoadingView
                 android:id="@+id/cuto_loading_view"
                 xmlns:cuto="http://schemas.android.com/apk/res-auto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:layout_gravity="center"
                 android:visibility="gone"
                 cuto:animDuration="1000"
                 cuto:circleRadius="3dp"
-                cuto:color="@color/colorAccent"
-                cuto:strokeWidth="2dp">
-            </cn.refactor.cutoloadingview.CutoLoadingView>
+                cuto:strokeColor="@android:color/holo_blue_dark"
+                cuto:strokeWidth="2dp"/>
 
         </FrameLayout>
     </cn.refactor.cutoloadingviewdemo.header.SamplePtrFrameLayout>
