@@ -1,0 +1,12 @@
+<resources>
+    <declare-styleable name="CutoLoadingView">
+        <!-- animation duration -->
+        <attr name="animDuration" format="integer"/>
+        <!-- stroke width -->
+        <attr name="strokeWidth" format="dimension"/>
+        <!-- stroke color -->
+        <attr name="color" format="color"/>
+        <!-- circle radius -->
+        <attr name="circleRadius" format="dimension"/>
+    </declare-styleable>
+</resources>

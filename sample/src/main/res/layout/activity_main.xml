@@ -1,24 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/activity_main"
+<LinearLayout
+    android:id="@+id/coordinator_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
-    tools:context="cn.refactor.cutoloadingviewdemo.MainActivity">
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="@string/app_name"
+        app:titleTextColor="@color/colorAccent"></android.support.v7.widget.Toolbar>
 
     <cn.refactor.cutoloadingviewdemo.header.SamplePtrFrameLayout
         android:id="@+id/ptr_frame_layout"
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv"
-            xmlns:rv="http://schemas.android.com/apk/res-auto"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            rv:layoutManager="LinearLayoutManager"/>
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv"
+                xmlns:rv="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                rv:layoutManager="LinearLayoutManager"/>
+
+            <cn.refactor.cutoloadingview.CutoLoadingView
+                android:id="@+id/cuto_loading_view"
+                xmlns:cuto="http://schemas.android.com/apk/res-auto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                cuto:animDuration="1000"
+                cuto:circleRadius="3dp"
+                cuto:color="@color/colorAccent"
+                cuto:strokeWidth="2dp">
+            </cn.refactor.cutoloadingview.CutoLoadingView>
+
+        </FrameLayout>
     </cn.refactor.cutoloadingviewdemo.header.SamplePtrFrameLayout>
-</RelativeLayout>
+
+</LinearLayout>

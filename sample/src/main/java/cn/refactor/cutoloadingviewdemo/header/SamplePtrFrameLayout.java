@@ -26,9 +26,10 @@ public class SamplePtrFrameLayout extends PtrFrameLayout {
 
     private void setupViews() {
         CutoLoadingViewHeader mHeaderView = new CutoLoadingViewHeader(getContext());
-        setResistance(1.7f);
+        setResistance(1.2f);
         setLoadingMinTime(1000);
-        setDurationToCloseHeader(500);
+        setDurationToCloseHeader(1400);
+        setDurationToClose(1000);
         setRatioOfHeaderHeightToRefresh(1.0f);
         setKeepHeaderWhenRefresh(true);
         setHeaderView(mHeaderView);

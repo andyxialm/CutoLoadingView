@@ -19,13 +19,13 @@ package cn.refactor.cutoloadingview;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
@@ -39,24 +39,24 @@ import java.lang.annotation.RetentionPolicy;
  */
 public class CutoLoadingView extends View {
 
-    private static final int DEFAULT_WIDTH  = 50;
-    private static final int DEFAULT_HEIGHT = 50;
-    private static final int DEFAULT_CIRCLE_RADIUS = 4;
+    private static final int DEFAULT_WIDTH         = 42;
+    private static final int DEFAULT_HEIGHT        = 42;
+    private static final int DEFAULT_CIRCLE_RADIUS = 3;
 
     private static final int DEFAULT_MAX_PROGRESS  = 100;
     private static final int DEFAULT_STROKE_SIZE   = 2;
     private static final int DEFAULT_PAINT_COLOR   = Color.WHITE;
     private static final int DEFAULT_DURATION      = 1600;
 
-    private static final int STATUS_FULL_STEPS  = 0;
-    private static final int STATUS_LOADING     = 1;
+    private static final int STATUS_FULL_STEPS     = 0;
+    private static final int STATUS_LOADING        = 1;
 
-    private static final int X              = 0;
-    private static final int Y              = 1;
+    private static final int X                     = 0;
+    private static final int Y                     = 1;
 
     private ValueAnimator mValueAnimator;
     private Paint mPaint;
-    private int mDuration; // millisecond
+    private int mAnimDuration; // millisecond
 
     private int mPaintColor;
     private int mStrokeSize;
@@ -66,7 +66,6 @@ public class CutoLoadingView extends View {
     private float mTotalProgressVal;
     private float mCurrentProgressVal;
 
-    private float mGap; // give padding space for the shape in this area. mGap = Math.sqrt(r * r + r * r) - r;
     private float[] mCenterPos;
     private float[] mLeftTopPos, mLeftBottomPos, mRightTopPos, mRightBottomPos;
 
@@ -97,13 +96,15 @@ public class CutoLoadingView extends View {
 
     private void init(AttributeSet attrs) {
 
-        // TODO: 16/10/9 Get attrs
-        mPaintColor = DEFAULT_PAINT_COLOR;
-        mStrokeSize = dp2px(DEFAULT_STROKE_SIZE);
-        mCircleRadius = dp2px(DEFAULT_CIRCLE_RADIUS);
-        mTotalProgressVal = DEFAULT_MAX_PROGRESS;
-        mDuration = DEFAULT_DURATION;
+        // Get attrs
+        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CutoLoadingView);
+        mPaintColor = ta.getColor(R.styleable.CutoLoadingView_color, DEFAULT_PAINT_COLOR);
+        mStrokeSize = ta.getDimensionPixelSize(R.styleable.CutoLoadingView_strokeWidth, dp2px(DEFAULT_STROKE_SIZE));
+        mAnimDuration = ta.getInt(R.styleable.CutoLoadingView_animDuration, DEFAULT_DURATION);
+        mCircleRadius = ta.getDimensionPixelSize(R.styleable.CutoLoadingView_circleRadius, dp2px(DEFAULT_CIRCLE_RADIUS));
+        ta.recycle();
 
+        mTotalProgressVal = DEFAULT_MAX_PROGRESS;
         mCenterPos = new float[2];
         mLeftTopPos = new float[2];
         mRightTopPos = new float[2];
@@ -130,7 +131,7 @@ public class CutoLoadingView extends View {
     public void startLoadingAnim() {
         mValueAnimator = ValueAnimator.ofFloat(mTotalProgressVal * 0.6f, mTotalProgressVal);
         mValueAnimator.setInterpolator(new LinearInterpolator());
-        mValueAnimator.setDuration(mDuration);
+        mValueAnimator.setDuration(mAnimDuration);
         mValueAnimator.setRepeatMode(ValueAnimator.RESTART);
         mValueAnimator.setRepeatCount(ValueAnimator.INFINITE);
         mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -138,7 +139,6 @@ public class CutoLoadingView extends View {
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 mCurState = STATUS_LOADING;
                 setProgress((Float) valueAnimator.getAnimatedValue());
-                Log.d("valueAnimatorValue", String.valueOf(valueAnimator.getAnimatedValue()));
             }
         });
         mValueAnimator.start();
@@ -148,7 +148,7 @@ public class CutoLoadingView extends View {
     private void startPreLoadingAnim() {
         mValueAnimator = ValueAnimator.ofFloat(0, mTotalProgressVal);
         mValueAnimator.setInterpolator(new LinearInterpolator());
-        mValueAnimator.setDuration(mDuration);
+        mValueAnimator.setDuration(mAnimDuration);
         mValueAnimator.setRepeatMode(ValueAnimator.RESTART);
         mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -172,12 +172,17 @@ public class CutoLoadingView extends View {
     }
 
     public void setDuration(int millisecond) {
-        mDuration = millisecond;
+        mAnimDuration = millisecond;
     }
 
     public void setColor(int color) {
         mPaintColor = color;
         mPaint.setColor(color);
+    }
+
+    public void setStrokeSize(int strokeSize) {
+        mStrokeSize = strokeSize;
+        mPaint.setStrokeWidth(strokeSize);
     }
 
     @Override
@@ -237,17 +242,19 @@ public class CutoLoadingView extends View {
         int height = getHeight();
         mCenterPos[X] = (width - paddingRight + paddingLeft) >> 1;
         mCenterPos[Y] = (height - paddingBottom + paddingTop) >> 1;
-        mGap = (float) (Math.sqrt(mCircleRadius * mCircleRadius + mCircleRadius * mCircleRadius) - mCircleRadius);
-        mGap += mCircleRadius;
-        mGap += mPaint.getStrokeWidth();
 
-        mLeftTopPos[X] = mGap + paddingLeft + mCircleRadius;
-        mRightTopPos[X] = width - mGap - paddingRight - mCircleRadius;
+        // give padding space for the shape not outOf this area. mGap = Math.sqrt(r * r + r * r) - r;
+        float gap = (float) (Math.sqrt(mCircleRadius * mCircleRadius + mCircleRadius * mCircleRadius) - mCircleRadius);
+        gap += mCircleRadius;
+        gap += mPaint.getStrokeWidth();
+
+        mLeftTopPos[X] = gap + paddingLeft + mCircleRadius;
+        mRightTopPos[X] = width - gap - paddingRight - mCircleRadius;
         mLeftBottomPos[X] = mLeftTopPos[X];
         mRightBottomPos[X] = mRightTopPos[X];
 
-        mLeftTopPos[Y] = paddingTop + mGap + mCircleRadius;
-        mLeftBottomPos[Y] = height - mGap - paddingBottom - mCircleRadius;
+        mLeftTopPos[Y] = paddingTop + gap + mCircleRadius;
+        mLeftBottomPos[Y] = height - gap - paddingBottom - mCircleRadius;
         mRightTopPos[Y] = mLeftTopPos[Y];
         mRightBottomPos[Y] = mLeftBottomPos[Y];
 

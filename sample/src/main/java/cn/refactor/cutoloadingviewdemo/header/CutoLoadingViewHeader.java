@@ -50,17 +50,14 @@ public class CutoLoadingViewHeader extends FrameLayout implements PtrUIHandler {
 
     @Override
     public void onUIReset(PtrFrameLayout frame) {
-        mCutoLoadingView.setVisibility(VISIBLE);
     }
 
     @Override
     public void onUIRefreshPrepare(PtrFrameLayout frame) {
-        mCutoLoadingView.setVisibility(VISIBLE);
     }
 
     @Override
     public void onUIRefreshBegin(PtrFrameLayout frame) {
-        mCutoLoadingView.startLoadingAnim();
     }
 
     @Override
@@ -70,6 +67,10 @@ public class CutoLoadingViewHeader extends FrameLayout implements PtrUIHandler {
 
     @Override
     public void onUIPositionChange(PtrFrameLayout frame, boolean isUnderTouch, byte status, PtrIndicator ptrIndicator) {
-        mCutoLoadingView.setProgress(ptrIndicator.getCurrentPercent() > 1 ? 1 : ptrIndicator.getCurrentPercent());
+        if (frame.isAutoRefresh()) {
+            mCutoLoadingView.setProgress(ptrIndicator.getCurrentPercent());
+        } else {
+            mCutoLoadingView.setProgress(ptrIndicator.getCurrentPercent() > 1.5f ? 1 : ptrIndicator.getCurrentPercent());
+        }
     }
 }
