@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:id="@+id/coordinator_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -11,38 +10,12 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:title="@string/app_name"
-        app:titleTextColor="@color/colorAccent"/>
+        android:background="?attr/colorPrimary"
+        app:title="@string/app_name"/>
 
-    <cn.refactor.cutoloadingviewdemo.header.SamplePtrFrameLayout
-        android:id="@+id/ptr_frame_layout"
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv"
-                xmlns:rv="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                rv:layoutManager="LinearLayoutManager"/>
-
-            <cn.refactor.cutoloadingview.CutoLoadingView
-                android:id="@+id/cuto_loading_view"
-                xmlns:cuto="http://schemas.android.com/apk/res-auto"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="center"
-                android:visibility="gone"
-                cuto:animDuration="1000"
-                cuto:circleRadius="3dp"
-                cuto:strokeColor="@android:color/holo_blue_dark"
-                cuto:strokeWidth="2dp"/>
-
-        </FrameLayout>
-    </cn.refactor.cutoloadingviewdemo.header.SamplePtrFrameLayout>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

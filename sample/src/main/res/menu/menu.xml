@@ -9,4 +9,9 @@
         android:id="@+id/regular_refresh"
         android:title="Regular_Refresh"
         app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_sample"
+        android:title="Sample"
+        app:showAsAction="never"/>
 </menu>
