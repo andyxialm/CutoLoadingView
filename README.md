@@ -20,7 +20,7 @@ allprojects {
 ###### Step 2. Add the dependency
 ~~~ xml
 dependencies {
-        compile 'com.github.andyxialm:CutoLoadingView:1.0.0'
+        compile 'com.github.andyxialm:CutoLoadingView:1.0.1'
 }
 ~~~
 	
