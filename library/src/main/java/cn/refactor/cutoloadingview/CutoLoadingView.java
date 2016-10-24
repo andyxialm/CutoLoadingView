@@ -260,6 +260,14 @@ public class CutoLoadingView extends View {
 
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (mValueAnimator != null && mValueAnimator.isRunning()) {
+            mValueAnimator.cancel();
+        }
+    }
+
     /**
      * measure width
      * @param measureSpec spec
